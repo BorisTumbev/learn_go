@@ -1,0 +1,5 @@
+go run
+go test -cover
+go test -bench=. -benchmem
+pkgsite // for docs
+go docs
