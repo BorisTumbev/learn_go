@@ -48,3 +48,40 @@ func ping(url string) chan struct{} {
 	}()
 	return ch
 }
+
+// Python equivalent, it's interesting one
+
+// import asyncio
+// import aiohttp
+
+// async def ping(session, url):
+//     try:
+//         async with session.get(url) as response:
+//             await response.read()  # ensure the response completes
+//     except Exception:
+//         pass  # treat errors like Go's version: just ignore
+//     return url
+
+// async def configurable_racer(a, b, timeout):
+//     async with aiohttp.ClientSession() as session:
+//         try:
+//             # Schedule both tasks concurrently
+//             tasks = [ping(session, a), ping(session, b)]
+//             done, pending = await asyncio.wait(tasks, timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
+
+//             if not done:
+//                 raise asyncio.TimeoutError(f"Timed out waiting for {a} and {b}")
+
+//             # Cancel the slower task
+//             for task in pending:
+//                 task.cancel()
+
+//             # Return the result of the first completed task
+//             winner = list(done)[0].result()
+//             return winner
+
+//         except asyncio.TimeoutError as e:
+//             return str(e)
+
+// def racer(a, b):
+//     return asyncio.run(configurable_racer(a, b, timeout=10))
